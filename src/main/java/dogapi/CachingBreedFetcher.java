@@ -31,12 +31,11 @@ public class CachingBreedFetcher implements BreedFetcher {
             return cache.get(breed);
         }
 
-        // If not in cache, fetch from the underlying fetcher
-        // Increment counter before making the call (counts even if exception thrown)
+        // If not in cache, increment counter and fetch from the underlying fetcher
         callsMade++;
         List<String> subBreeds = fetcher.getSubBreeds(breed);
 
-        // Store the result in the cache before returning
+        // Only cache if successful (if exception was thrown, we never reach here)
         cache.put(breed, subBreeds);
 
         return subBreeds;
