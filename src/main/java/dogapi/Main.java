@@ -4,16 +4,15 @@ import java.util.List;
 
 public class Main {
 
-    public static void main(String[] args) {
-        String breed = (args.length > 0) ? args[0] : "hound";
-        BreedFetcher fetcher = new CachingBreedFetcher(new DogApiBreedFetcher());
-        try {
-            int count = getNumberOfSubBreeds(breed, fetcher);
-            System.out.println(breed + " has " + count + " sub-breeds.");
-        } catch (BreedFetcher.BreedNotFoundException e) {
-            System.err.println("Error: " + e.getMessage());
-            System.exit(1);
-        }
+    public static void main(String[] args) throws BreedFetcher.BreedNotFoundException {
+        String breed = "hound";
+        BreedFetcher breedFetcher = new CachingBreedFetcher(new BreedFetcherForLocalTesting());
+        int result = getNumberOfSubBreeds(breed, breedFetcher);
+        System.out.println(breed + " has " + result + " sub breeds");
+
+        breed = "cat";
+        result = getNumberOfSubBreeds(breed, breedFetcher);
+        System.out.println(breed + " has " + result + " sub breeds");
     }
 
     /**
